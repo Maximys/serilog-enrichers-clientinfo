@@ -200,11 +200,13 @@ public class CorrelationIdEnricherTests
         // Act
         log.Information("Has a correlation id.");
         string retrievedCorrelationId = _contextAccessor.HttpContext!.GetCorrelationId();
+        string correlationIdFromResponse = _contextAccessor.HttpContext!.Response.Headers[HeaderKey];
 
         // Assert
         Assert.NotNull(evt);
         Assert.NotNull(retrievedCorrelationId);
         Assert.NotEmpty(retrievedCorrelationId);
+        Assert.Equal(retrievedCorrelationId, correlationIdFromResponse);
         // Verify it's a valid GUID format
         Assert.True(Guid.TryParse(retrievedCorrelationId, out _));
     }

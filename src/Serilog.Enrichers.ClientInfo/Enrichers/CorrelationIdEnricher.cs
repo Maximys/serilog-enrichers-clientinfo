@@ -67,7 +67,10 @@ public class CorrelationIdEnricher : ILogEventEnricher
         else if (!string.IsNullOrWhiteSpace(responseHeader))
             correlationId = responseHeader;
         else if (_addValueIfHeaderAbsence)
+        {
             correlationId = Guid.NewGuid().ToString();
+            httpContext.Response.Headers[_headerKey] = correlationId;
+        }
         else
             correlationId = null;
 
